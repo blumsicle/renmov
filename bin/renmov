@@ -8,5 +8,5 @@ rescue LoadError
 end
 
 cli = Renmov::CLI.new
-cli.parse_options
-cli.run
+exit_status = cli.run
+exit exit_status

@@ -67,3 +67,39 @@ Feature: Options
 
     Usage: renmov [options] filename...
     """
+
+  Scenario: no arguments/options
+    Given a blank slate
+    When I run `renmov`
+    Then the exit status should be 1
+    And the stderr should contain:
+    """
+    renmov: no filename(s) provided
+    Rename video files to a consistent format.
+
+    Usage: renmov [options] filename...
+    """
+
+  Scenario: invalid option (short)
+    Given a blank slate
+    When I run `renmov -i`
+    Then the exit status should be 1
+    And the stderr should contain:
+    """
+    renmov: invalid option: -i
+    Rename video files to a consistent format.
+
+    Usage: renmov [options] filename...
+    """
+
+  Scenario: invalid option (long)
+    Given a blank slate
+    When I run `renmov --invalid`
+    Then the exit status should be 1
+    And the stderr should contain:
+    """
+    renmov: invalid option: --invalid
+    Rename video files to a consistent format.
+
+    Usage: renmov [options] filename...
+    """

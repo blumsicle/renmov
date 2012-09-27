@@ -1,6 +1,7 @@
 module Renmov
   class BasicRenamer
     attr_reader :filename
+
     def initialize(filename)
       @filename = filename.downcase
     end
@@ -38,7 +39,7 @@ module Renmov
 
     def get_format
       format = filename.dup
-      format.gsub!(/.*\.(...)\z/, '\1')
+      format.gsub!(/.*\.(.*)\z/, '\1')
 
       format
     end
