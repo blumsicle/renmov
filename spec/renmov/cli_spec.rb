@@ -4,7 +4,8 @@ require 'fileutils'
 module Renmov
   describe CLI do
     describe '#parse_options' do
-      let(:default_options) { { verbose: false } }
+      let(:default_options) { { verbose: false, noop: false } }
+
       before(:each) do
         @cli = CLI.new(options + filenames)
         @cli.parse_options
@@ -65,12 +66,50 @@ module Renmov
           end
         end
       end
+
+      context 'with noop option provided' do
+        let(:options) { ['-n'] }
+
+        context 'with no filenames provided' do
+          let(:filenames) { [] }
+
+          it 'merges verbose and noop with default options' do
+            @cli.options.should == default_options.merge(verbose: true,
+                                                         noop: true)
+          end
+
+          it 'sets filenames to []' do
+            @cli.filenames.should == filenames
+          end
+        end
+
+        context 'with one filename provided' do
+          let(:filenames) { ['TV.Show.S01E02.HDTV.test.mp4'] }
+
+          it 'merges verbose and noop with default options' do
+            @cli.options.should == default_options.merge(verbose: true,
+                                                         noop: true)
+          end
+
+          it 'sets filenames to filename provided' do
+            @cli.filenames.should == filenames
+          end
+        end
+      end
     end
 
     describe '#run' do
       let(:tmpdir) { File.expand_path('../../../tmp', __FILE__) }
+
       before(:each) do
-        FileUtils.touch filenames
+        filenames.each do |filename|
+          FileUtils.rm(filename) if File.exists?(filename)
+        end
+        newnames.each do |newname|
+          FileUtils.rm(newname) if File.exists?(newname)
+        end
+
+        FileUtils.touch(filenames)
         cli = CLI.new(filenames)
         cli.parse_options
         cli.run
