@@ -42,3 +42,28 @@ Feature: Options
     """
     mv TV.Show.S01E02.HDTV.x264-LOL.mp4 tv.show.s01e02.mp4
     """
+
+  Scenario: version (--version)
+    Given a blank slate
+    When I successfully run `renmov --version`
+    Then the output should contain the right version
+
+  Scenario: help (-h)
+    Given a blank slate
+    When I successfully run `renmov -h`
+    Then the output should contain:
+    """
+    Rename video files to a consistent format.
+
+    Usage: renmov [options] filename...
+    """
+    
+  Scenario: help (--help)
+    Given a blank slate
+    When I successfully run `renmov --help`
+    Then the output should contain:
+    """
+    Rename video files to a consistent format.
+
+    Usage: renmov [options] filename...
+    """

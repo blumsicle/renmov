@@ -18,6 +18,13 @@ module Renmov
 
     def parse_options
       optparse = OptionParser.new do |opts|
+        executable_name = File.basename($PROGRAM_NAME, '.rb')
+        opts.banner = <<EOL
+Rename video files to a consistent format.
+
+Usage: #{executable_name} [options] filename...
+EOL
+
         opts.on('-v', '--verbose', 'Output more information') do
           options[:verbose] = true
         end
@@ -25,6 +32,16 @@ module Renmov
         opts.on('-n', '--noop', 'Output actions without invoking them') do
           options[:noop]    = true
           options[:verbose] = true
+        end
+
+        opts.on_tail('-h', '--help', 'Show this message') do
+          puts opts
+          exit
+        end
+
+        opts.on_tail('--version', 'Show version') do
+          puts Renmov::VERSION
+          exit
         end
       end
 
