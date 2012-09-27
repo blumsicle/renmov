@@ -1,1 +1,12 @@
 #!/usr/bin/env ruby
+
+begin
+  require 'renmov'
+rescue LoadError
+  $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
+  require 'renmov'
+end
+
+cli = Renmov::CLI.new
+cli.parse_options
+cli.run
