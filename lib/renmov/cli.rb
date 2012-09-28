@@ -50,15 +50,15 @@ module Renmov
         ['Rename video files to a consistent format.', '',
          "Usage: #{executable_name} [options] filename..."].join("\n")
 
-      optparse.on('-v', '--verbose',
-                  'Output more information') do
-        options[:verbose] = true
+      optparse.on('-v', '--[no-]verbose',
+                  'Output more information') do |v|
+        options[:verbose] = v
       end
 
-      optparse.on('-n', '--noop',
-                  'Output actions without invoking them') do
-        options[:noop]    = true
-        options[:verbose] = true
+      optparse.on('-n', '--[no-]noop',
+                  'Output actions without invoking them') do |n|
+        options[:noop]    = n
+        options[:verbose] = n
       end
 
       optparse.on_tail('-h', '--help',

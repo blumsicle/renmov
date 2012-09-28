@@ -1,7 +1,7 @@
 module Renmov
   class NoFilenameError < StandardError
-    def to_s
-      'no filename(s) provided'
+    def initialize(*args)
+      super('no filename(s) provided', *args)
     end
   end
 end
