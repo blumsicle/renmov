@@ -6,15 +6,15 @@ require 'renmov/errors'
 module Renmov
   class CLI
     attr_reader   :executable_name, :args, :options, :optparse
-    attr_accessor :filenames, :renamer
+    attr_accessor :filenames, :renamer_class
 
-    def initialize(args = ARGV, renamer = BasicRenamer)
+    def initialize(args = ARGV, renamer_class = BasicRenamer)
       @executable_name = File.basename($PROGRAM_NAME, '.rb')
       @args      = args
       @options   = { verbose: false, noop: false }
       @optparse  = OptionParser.new
       @filenames = []
-      @renamer   = renamer
+      @renamer_class = renamer_class
     end
 
     def run
@@ -29,8 +29,8 @@ module Renmov
           dirname.gsub!(/\A\.\/\z/, '')
           
           basename  = File.basename(filename)
-          renamer_i = renamer.new(basename)
-          newname   = "#{dirname}#{renamer_i.rename}"
+          renamer   = renamer_class.new(basename)
+          newname   = "#{dirname}#{renamer.rename}"
 
           rename_file(filename, newname)
         end
